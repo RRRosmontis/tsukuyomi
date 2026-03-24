@@ -1,6 +1,7 @@
 # tsukuyomi
 ## RRRosmontis's live platform<br>
 ### Powered by SRS<br>
+### For 超かぐや姫！Cosmic Princess Kaguya
 
 In fact, it supports the choice of the room number for watching the live broadcast, but here as a demonstration page, when you access the index.html under the root directory, it will automatically jump to room 77.<br>
 <br>
