@@ -1,2 +1,5 @@
 # tsukuyomi
-web live
+RRRosmontis's live platform
+Powered by SRS
+
+https://rrrosmontis.icu
