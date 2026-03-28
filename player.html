@@ -749,8 +749,8 @@
             overlay.style.display = 'none';
 
             var streamUrl = isAppleDevice() ?
-                "http://live.aeolianchi.me:49068/live/room_" + roomNum + ".m3u8" :
-                "http://live.aeolianchi.me:49068/live/room_" + roomNum + ".flv";
+                "http://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".m3u8" :
+                "http://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".flv";
             startPlay(streamUrl);
 
             var protocol = isAppleDevice() ? 'HLS' : 'FLV';
