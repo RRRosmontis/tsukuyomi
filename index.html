@@ -1,6 +1,862 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="refresh" content="0; url=http://aeolianchi.me/player.html?room=77">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>T S U K U Y O M I</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%90%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="180x180" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%90%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+    <script type="text/javascript" src="js/mpegts-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/hls-0.14.17.min.js"></script>
+    <script type="text/javascript" src="js/dash-v4.5.1.all.min.js"></script>
+    <script type="text/javascript" src="js/winlin.utility.js"></script>
+    <script type="text/javascript" src="js/srs.page.js"></script>
+    <style>
+        :root {
+            --primary-color: #5dade2;
+            --primary-glow: rgba(93, 173, 226, 0.4);
+            --bg-deep: #0a0e17;
+            --glass-bg: rgba(18, 24, 38, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            --text-main: #e2e8f0;
+            --text-sub: #94a3b8;
+            --accent-gold: #f1c40f;
+        }
+
+        html {
+            touch-action: manipulation;
+            scroll-behavior: smooth;
+        }
+
+        @font-face {
+            font-family: 'Kazesawa-Regular';
+            src: url('https://cdn.rrrosmontis.icu/ttf-1.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(135deg, rgba(10, 14, 23, 0.88), rgba(26, 31, 56, 0.85)),
+                url('https://cdn.rrrosmontis.icu/background-TSUKUYOMI.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Kazesawa-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Segoe UI Symbol', 'Arial', 'Helvetica', sans-serif;
+            color: var(--text-main);
+            overflow: hidden;
+            background-color: var(--bg-deep);
+        }
+
+        .topbar, .mobile-nav-row, .footer {
+            display: none;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 95vh;
+            padding: 20px;
+            gap: 20px;
+            align-items: stretch;
+            z-index: 1;
+        }
+
+        .land-left-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            flex: 1.4;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 30px 20px;
+            box-shadow: var(--glass-shadow);
+            text-align: center;
+        }
+
+        .flex-spacer {
+            flex: 1 1 0%;
+            min-height: 0;
+            width: 100%;
+        }
+
+        .land-top-text {
+            margin-bottom: 20px;
+        }
+
+        .session-area {
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .additional-box {
+            flex: 8.6;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            transition: border 0.3s ease;
+        }
+
+        .video-wrapper {
+            flex: 1;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        #rtc_media_player {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .land-title-main {
+            font-size: 2.0rem;
+            color: #fff;
+            font-weight: 600;
+            line-height: 1.2;
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        .land-title {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .land-sub {
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: bold;
+            margin-top: 8px;
+            letter-spacing: 3px;
+        }
+
+        .session-label {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .session-id-middle {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            word-break: break-word;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .bottom-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .share-btn {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 12px 32px;
+            font-size: 1.0rem;
+            font-weight: 500;
+            cursor: pointer;
+            width: 80%;
+            max-width: 220px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: inherit;
+        }
+
+        .share-btn:hover {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px var(--primary-glow);
+            color: white;
+            border-color: transparent;
+        }
+
+        .share-text {
+            display: inline-block;
+            transition: opacity 0.3s;
+        }
+
+        .land-bottom-text {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .land-bottom-text a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .room-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 12, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .room-dialog {
+            background: #161b29;
+            border-radius: 32px;
+            width: 90%;
+            max-width: 380px;
+            padding: 35px 25px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: dialogFadeUp 0.6s ease-out;
+        }
+
+        .room-dialog h3 {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        input.room-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            width: 90%;
+            text-align: center;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        input.room-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .room-button {
+            background: var(--primary-color);
+            color: #0a0e17;
+            border-radius: 60px;
+            padding: 14px 40px;
+            font-weight: 600;
+            border: none;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .room-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--primary-glow);
+        }
+
+        .error-msg {
+            color: #ff7675;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @keyframes dialogFadeUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            body::before {
+                background-image: 
+                    linear-gradient(180deg, rgba(10, 14, 23, 0.95), rgba(10, 14, 23, 0.8)),
+                    url('https://cdn.rrrosmontis.icu/background-mobile.jpg');
+            }
+
+            body {
+                overflow: hidden;
+                display: block;
+            }
+
+            .topbar {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                background: rgba(18, 24, 38, 0.98);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-bottom: 1px solid var(--glass-border);
+                z-index: 1000;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-main);
+            }
+            .brand-text {
+                font-size: 1.3em;
+                font-weight: 600;
+                letter-spacing: 2px;
+                text-shadow: 0 0 8px var(--primary-glow);
+            }
+
+            .mobile-nav-row {
+                display: flex;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(18, 24, 38, 0.95);
+                backdrop-filter: blur(8px);
+                padding: 8px 0;
+                justify-content: center;
+                z-index: 998;
+                border-bottom: 1px solid var(--glass-border);
+            }
+
+            .main-content {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                width: 100vh;
+                height: 100vw;
+                transform: translate(-50%, -50%) rotate(90deg);
+                padding: 8px;
+                gap: 8px;
+                z-index: 1000;
+                background: transparent;
+            }
+
+            .land-left-box {
+                flex: 1.8;
+                background: var(--glass-bg);
+                backdrop-filter: blur(25px);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px;
+                padding: 10px 4px;
+                justify-content: flex-start;
+                box-shadow: var(--glass-shadow);
+            }
+
+            .additional-box {
+                flex: 8.2;
+                background: var(--glass-bg);
+                backdrop-filter: blur(25px);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px;
+                padding: 8px;
+                height: 100%;
+            }
+            .video-wrapper {
+                border-radius: 12px;
+            }
+
+            .land-title-main { font-size: 0.95rem; }
+            .land-title { font-size: 0.55rem; }
+            .land-sub { font-size: 0.65rem; margin-top: 2px; }
+            .session-label { font-size: 0.6rem; }
+            .session-id-middle { font-size: 1rem; margin: 4px 0; }
+            .land-top-text { margin-bottom: 10px; }
+            .session-area { margin-top: 5px; margin-bottom: 8px; }
+            .land-bottom-text { font-size: 0.65rem; }
+
+            .share-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                width: 90%;
+                max-width: 180px;
+                border-radius: 30px;
+            }
+
+            .footer {
+                display: block;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: rgba(18, 24, 38, 0.98);
+                backdrop-filter: blur(10px);
+                border-top: 1px solid var(--glass-border);
+                padding: 12px 0;
+                text-align: center;
+                z-index: 999;
+                color: var(--text-sub);
+            }
+            .mobile-footer {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                font-size: 0.9em;
+            }
+            .mobile-footer a {
+                color: var(--primary-color);
+                text-decoration: none;
+            }
+
+            .pc-only { display: none; }
+            .mobile-only { display: flex; }
+
+            input.room-input {
+                border: 2px solid rgba(255,255,255,0.1);
+                background: rgba(0,0,0,0.3);
+                color: #fff;
+                width: 100%;
+            }
+            input.room-input:focus {
+                border-color: var(--primary-color);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --primary-color: #3498db;
+                --primary-glow: rgba(52, 152, 219, 0.3);
+                --bg-deep: #f0f2f5;
+                --glass-bg: rgba(255, 255, 255, 0.75);
+                --glass-border: rgba(255, 255, 255, 0.6);
+                --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+                --text-main: #2c3e50;
+                --text-sub: #7f8c8d;
+                --accent-gold: #e67e22;
+            }
+
+            body::before {
+                background-image: url('https://cdn.rrrosmontis.icu/background-TSUKUYOMI.jpg');
+                background-size: cover;
+                background-position: center;
+            }
+
+            body {
+                background-color: #eef2f7;
+            }
+
+            .land-left-box, .additional-box {
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--glass-border);
+                box-shadow: var(--glass-shadow);
+            }
+
+            .land-title-main {
+                color: #2c3e50;
+                text-shadow: none;
+            }
+
+            .land-sub {
+                color: var(--accent-gold);
+            }
+
+            .session-label {
+                color: var(--text-sub);
+            }
+
+            .session-id-middle {
+                color: #2c3e50;
+                text-shadow: none;
+            }
+
+            .share-btn {
+                background: linear-gradient(135deg, var(--primary-color), #2980b9);
+                color: white;
+                border: none;
+                box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            }
+
+            .share-btn:hover {
+                background: linear-gradient(135deg, var(--primary-color), #1f6ea0);
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(52, 152, 219, 0.4);
+                color: white;
+            }
+
+            .land-bottom-text {
+                color: var(--text-sub);
+            }
+
+            .land-bottom-text a {
+                color: var(--primary-color);
+            }
+
+            .room-overlay {
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(3px);
+            }
+
+            .room-dialog {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255,255,255,0.6);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            }
+
+            .room-dialog h3 {
+                color: #2c3e50;
+            }
+
+            input.room-input {
+                background: rgba(255, 255, 255, 0.6);
+                border: 2px solid #e0e0e0;
+                color: #2c3e50;
+            }
+
+            input.room-input:focus {
+                background: #fff;
+                border-color: var(--primary-color);
+                box-shadow: 0 5px 20px rgba(52, 152, 219, 0.2);
+            }
+
+            .room-button {
+                background: linear-gradient(135deg, var(--primary-color), #2980b9);
+                color: white;
+                box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+            }
+
+            .room-button:hover {
+                box-shadow: 0 8px 25px rgba(52, 152, 219, 0.5);
+            }
+
+            .error-msg {
+                color: #e74c3c;
+            }
+
+            hr {
+                border-top: 1px solid rgba(0,0,0,0.1);
+            }
+
+            @media (max-width: 768px) {
+                body::before {
+                    background-image: url('https://cdn.rrrosmontis.icu/background-mobile.jpg');
+                }
+
+                .topbar {
+                    background: rgba(255, 255, 255, 0.95);
+                    border-bottom: 1px solid rgba(0,0,0,0.05);
+                    color: #2c3e50;
+                }
+                .brand-text {
+                    text-shadow: none;
+                }
+                .mobile-nav-row {
+                    background: rgba(255, 255, 255, 0.95);
+                    border-bottom: 1px solid rgba(0,0,0,0.05);
+                }
+                .land-left-box, .additional-box {
+                    background: var(--glass-bg);
+                    backdrop-filter: blur(20px);
+                    border: 1px solid rgba(255,255,255,0.6);
+                }
+                .footer {
+                    background: rgba(255, 255, 255, 0.95);
+                    border-top: 1px solid rgba(0,0,0,0.05);
+                    color: #7f8c8d;
+                }
+                .mobile-footer a {
+                    color: var(--primary-color);
+                }
+                input.room-input {
+                    border: 2px solid #e0e0e0;
+                    background: rgba(255,255,255,0.8);
+                    color: #2c3e50;
+                }
+                input.room-input:focus {
+                    border-color: var(--primary-color);
+                }
+            }
+        }
+    </style>
 </head>
+<body>
+
+    <div class="main-content">
+        <div class="land-left-box">
+            <div class="land-top-text">
+                <br>
+                <div class="land-title-main">𝓡𝓸𝔂𝓲𝓻𝓲𝓷</div>
+                <div class="land-title-main">𝓡𝓸𝓼𝓶𝓸𝓷𝓽𝓲𝓼</div>
+                <br>
+                <hr style="width: 80%; margin: 0 auto;">
+                <br class="pc-only">
+                <img src="https://cdn.rrrosmontis.icu/tsukuyomi/main-logo.png" alt="TSUKUYOMI Logo" style="width: 85%; filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));">
+                <br><br class="pc-only">
+                <hr style="width: 80%; margin: 0 auto;">
+                <br>
+                <div class="land-sub">- 𝐋𝐢𝐯𝐞 -</div>
+            </div>
+
+            <div class="flex-spacer"></div>
+
+            <div class="session-area">
+                <div class="session-label">Session ID</div>
+                <div id="sessionIdDisplay" class="session-id-middle">—</div>
+            </div>
+
+            <div class="bottom-group">
+                <button class="share-btn"><span class="share-text">分享链接</span></button>
+                <div class="land-bottom-text">
+                    Powered by <a href="https://github.com/ossrs/srs" target="_blank">SRS</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="additional-box">
+            <div class="video-wrapper">
+                <video id="rtc_media_player" controls autoplay playsinline></video>
+            </div>
+        </div>
+    </div>
+
+    <div id="roomOverlay" class="room-overlay">
+        <div class="room-dialog">
+            <img src="https://cdn.rrrosmontis.icu/tsukuyomi/main-logo.png" alt="TSUKUYOMI Logo" style="width: 70%; margin-bottom: 20px;">
+            <input type="number" id="roomInput" class="room-input" min="1" max="100" autofocus placeholder="请输入房间号">
+            <button id="confirmRoomBtn" class="room-button">确认</button>
+            <div id="roomError" class="error-msg"></div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        var flvPlayer = null;
+        var hlsPlayer = null;
+        var dashPlayer = null;
+        var currentRoomId = null;
+
+        var animationFadeDuration = 400;
+        var animationStayDuration = 600;
+
+        function isAppleDevice() {
+            return /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+        }
+
+        function stopPlayers() {
+            if (flvPlayer) { flvPlayer.destroy(); flvPlayer = null; }
+            if (hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
+            if (dashPlayer) { dashPlayer.destroy(); dashPlayer = null; }
+        }
+
+        function startPlay(url) {
+            stopPlayers();
+            var video = document.getElementById('rtc_media_player');
+            if (url.indexOf('.m3u8') > 0) {
+                if (isAppleDevice()) { video.src = url; video.play(); return; }
+                if (Hls.isSupported()) {
+                    hlsPlayer = new Hls();
+                    hlsPlayer.loadSource(url);
+                    hlsPlayer.attachMedia(video);
+                } else {
+                    alert('当前浏览器不支持 HLS 播放');
+                }
+            } else {
+                if (mpegts.getFeatureList().mseLivePlayback) {
+                    flvPlayer = mpegts.createPlayer({type: 'flv', url: url, isLive: true, enableStashBuffer: false});
+                    flvPlayer.attachMediaElement(video);
+                    flvPlayer.load();
+                    flvPlayer.play();
+                } else {
+                    alert('当前浏览器不支持 HTTP-FLV 播放');
+                }
+            }
+        }
+
+        var overlay = document.getElementById('roomOverlay');
+        var roomInput = document.getElementById('roomInput');
+        var confirmBtn = document.getElementById('confirmRoomBtn');
+        var errorDiv = document.getElementById('roomError');
+        var sessionDisplay = document.getElementById('sessionIdDisplay');
+
+        function handleConfirm() {
+            var rawValue = roomInput.value.trim();
+            if (rawValue === '') {
+                errorDiv.innerText = '房间号不能为空';
+                return;
+            }
+            var roomNum = Number(rawValue);
+            if (!Number.isInteger(roomNum)) {
+                errorDiv.innerText = '请输入有效的房间号';
+                return;
+            }
+
+            if (roomNum === 8000) {
+                window.location.href = 'https://live.rrrosmontis.icu/players/8000.html';
+                return;
+            }
+
+            if (roomNum < 1 || roomNum > 100) {
+                errorDiv.innerText = '请输入1~100之间的整数 | TRY 8000 !';
+                return;
+            }
+
+            currentRoomId = roomNum;
+            overlay.style.display = 'none';
+
+            var streamUrl = isAppleDevice() ?
+                "http://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".m3u8" :
+                "http://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".flv";
+            startPlay(streamUrl);
+
+            var protocol = isAppleDevice() ? 'HLS' : 'FLV';
+            if (sessionDisplay) sessionDisplay.innerText = protocol + '-' + roomNum;
+        }
+
+        confirmBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleConfirm();
+        });
+
+        roomInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleConfirm();
+            }
+        });
+
+        function triggerShareAnimation(textSpan, tempText) {
+            if (!textSpan) return;
+            var originalText = '分享链接';
+
+            if (textSpan._animTimeout) {
+                clearTimeout(textSpan._animTimeout);
+                textSpan._animTimeout = null;
+            }
+            if (textSpan._cancelAnim !== undefined) {
+                textSpan._cancelAnim = true;
+            }
+
+            textSpan.style.transition = 'none';
+            textSpan.style.opacity = '1';
+            textSpan.innerText = originalText;
+            textSpan.offsetHeight;
+
+            textSpan.style.willChange = 'opacity';
+            textSpan.style.transform = 'translateZ(0)';
+
+            textSpan._cancelAnim = false;
+
+            textSpan.style.transition = 'opacity ' + animationFadeDuration + 'ms ease';
+            textSpan.style.opacity = '0';
+
+            textSpan._animTimeout = setTimeout(function() {
+                if (textSpan._cancelAnim) return;
+                textSpan.innerText = tempText;
+                textSpan.offsetHeight;
+                textSpan.style.opacity = '1';
+
+                textSpan._animTimeout = setTimeout(function() {
+                    if (textSpan._cancelAnim) return;
+                    textSpan.style.opacity = '0';
+
+                    textSpan._animTimeout = setTimeout(function() {
+                        if (textSpan._cancelAnim) return;
+                        textSpan.innerText = originalText;
+                        textSpan.offsetHeight;
+                        textSpan.style.opacity = '1';
+
+                        textSpan._animTimeout = setTimeout(function() {
+                            if (textSpan._cancelAnim) return;
+                            textSpan.style.transition = 'none';
+                            textSpan.style.willChange = 'auto';
+                            textSpan.style.transform = '';
+                            textSpan._animTimeout = null;
+                        }, animationFadeDuration);
+                    }, animationFadeDuration);
+                }, animationStayDuration);
+            }, animationFadeDuration);
+        }
+
+        var shareBtns = document.querySelectorAll('.share-btn');
+        shareBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!currentRoomId) return;
+
+                var targetUrl = window.location.origin + window.location.pathname + '?room=' + currentRoomId;
+                var tempInput = document.createElement('input');
+                tempInput.value = targetUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try { document.execCommand('copy'); } catch (err) {}
+                document.body.removeChild(tempInput);
+
+                shareBtns.forEach(function(b) {
+                    var textSpan = b.querySelector('.share-text');
+                    if (textSpan) {
+                        triggerShareAnimation(textSpan, '复制成功');
+                    }
+                });
+            });
+        });
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlRoom = urlParams.get('room');
+        if (urlRoom) {
+            var parsedRoom = parseInt(urlRoom, 10);
+            if (parsedRoom === 8000) {
+                window.location.href = 'https://live.rrrosmontis.icu/players/8000.html';
+            } else if (parsedRoom >= 1 && parsedRoom <= 100) {
+                roomInput.value = parsedRoom;
+                handleConfirm();
+            }
+        }
+    })();
+    </script>
+</body>
 </html>
