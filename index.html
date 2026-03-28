@@ -753,7 +753,7 @@
         }
     }
 
-    const DANMAKU_WS_URL = 'wss://api2.rrrosmontis.icu/v1/live/danmaku';
+    const DANMAKU_WS_URL = 'wss://api2.rrrosmontis.icu:49068/danmaku';
 
     function getAvatarColor(user) {
         const colors = ['#5dade2', '#f1c40f', '#9b59b6', '#e67e22', '#2ecc71', '#e84342'];
@@ -906,8 +906,8 @@
         currentUsername = rawName;
         overlay.style.display = 'none';
         const streamUrl = isAppleDevice() ?
-            "https://api2.rrrosmontis.icu/live/room_" + roomNum + ".m3u8" :
-            "https://api2.rrrosmontis.icu/live/room_" + roomNum + ".flv";
+            "https://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".m3u8" :
+            "https://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".flv";
         startPlay(streamUrl);
         closeDanmaku();
         connectDanmaku(currentRoomId, currentUsername);
