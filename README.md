@@ -4,7 +4,7 @@
 ### For 超かぐや姫！Cosmic Princess Kaguya
 Its use is no different from the official operation of SRS. The project as a whole is just a page designed for SRS-supported players. But here I set up nginx forwarding for it and removed most of the players to retain the core functions. You need to set the URL to get the push according to your server configuration.<br>
 
-In fact, it supports the choice of the room number for watching the live broadcast, but here as a demonstration page, when you access the index.html under the root directory, it will automatically jump to room 77.<br>
+It supports the choice of the room number for watching the live broadcast.<br>
 <br>
 On the live broadcast platform built by the author, the room number supports any integer of 1-100. As a tribute, there will be a special page when the room number is set to 8000. You can also jump to this page through the following link.<br>
 https://live.rrrosmontis.icu/players/8000.html<br>
