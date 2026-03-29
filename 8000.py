@@ -34,7 +34,7 @@ except Exception as e:
 可用动作：泪珠, 眯眯眼, 眼泪, 笑咪咪, idle。"""
 
 # ==================== 配置 ====================
-DEEPSEEK_API_KEY = "sk-39fb39be991b4161b7c31b117cbbf839"
+DEEPSEEK_API_KEY = ""
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 DEEPSEEK_MODEL = "deepseek-chat"
 
