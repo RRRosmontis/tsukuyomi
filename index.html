@@ -614,24 +614,27 @@
                 color: #e74c3c;
             }
 
-                        /* 弹幕列表背景：非常淡的灰色 */
+               
             .danmaku-list {
-                background: #f0f2f5 !important;   /* 柔和的浅灰 */
-                backdrop-filter: none;             /* 可选：移除模糊增强清晰度 */
+                background: #f0f2f5 !important;   
+                backdrop-filter: none;           
             }
 
-            /* 弹幕输入区域背景：统一淡灰色 */
+     
             .input-area {
-                background: #eef0f4 !important;    /* 极浅灰 */
+                background: #eef0f4 !important;   
                 border-color: rgba(0, 0, 0, 0.08);
             }
 
-            /* 确认按钮文字改为白色，并保持背景清晰 */
             .room-button {
                 color: #ffffff !important;
-                /* 若按钮背景对比度不足，可加深背景色（可选） */
+
                 background: var(--primary-color, #3498db);
                 font-weight: 500;
+            }
+
+            .danmaku-text {
+                color: var(--text-sub);
             }
 
         }
@@ -655,17 +658,17 @@
             <div class="land-sub">- 𝐋𝐢𝐯𝐞 -</div>
         </div>
 
-        <!-- 弹幕区域 -->
+      
         <div class="danmaku-container">
             <div class="danmaku-list" id="danmakuList"></div>
             <div class="input-area">
                 <input type="text" id="danmakuInput" placeholder="发送弹幕..." maxlength="20" disabled>
-                <button class="send-btn" id="sendDanmakuBtn" disabled><span>⬆️</span></button>
-                <button class="share-circle-btn" id="circleShareBtn"><span class="share-text">↗️</span></button>
+                <button class="send-btn" id="sendDanmakuBtn" disabled><span>↑</span></button>
+                <button class="share-circle-btn" id="circleShareBtn"><span class="share-text">↗</span></button>
             </div>
         </div>
 
-        <!-- 底部信息区: session id小字 + powered by -->
+  
         <div class="bottom-info-area">
             <div id="sessionInfoLine" class="session-info-line">—</div>
             <div class="powered-footer">Powered by <a href="https://github.com/ossrs/srs" target="_blank">SRS</a></div>
