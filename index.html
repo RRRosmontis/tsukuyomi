@@ -26,6 +26,13 @@
     </style>
 </head>
 <body>
-    <iframe src="https://live.rrrosmontis.icu/players/player.html"></iframe>
+    <iframe id="playerFrame" src="https://live.rrrosmontis.icu/players/player.html"></iframe>
+    <script>
+        const iframe = document.getElementById('playerFrame');
+        const params = window.location.search;
+        if (params) {
+            iframe.src = "https://live.rrrosmontis.icu/players/player.html" + params;
+        }
+    </script>
 </body>
 </html>
