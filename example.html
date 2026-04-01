@@ -6,8 +6,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>T S U K U Y O M I</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%90%3C/text%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" sizes="180x180" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%90%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.rrrosmontis.icu/favicon-apple.png">
+    <link rel="icon" type="image/png" href="https://cdn.rrrosmontis.icu/favicon.png" sizes="64x64">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
     <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
     <script type="text/javascript" src="js/mpegts-1.7.2.min.js"></script>
@@ -113,7 +113,6 @@
             width: 100%;
         }
 
-        /* 弹幕容器 - 占满剩余空间 */
         .danmaku-container {
             display: flex;
             flex-direction: column;
@@ -145,7 +144,6 @@
         .danmaku-text { color: #d8e2f0; display: inline; }
         .danmaku-empty { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-sub); font-size: 0.95rem; text-align: center; padding: 20px; opacity: 0.8; }
 
-        /* 输入区域: 弹幕框 + 圆形分享按钮并排 */
         .input-area {
             display: flex;
             align-items: center;
@@ -190,10 +188,10 @@
             box-shadow: 0 0 20px var(--primary-glow);
             flex-shrink: 0;
             transition: 0.2s;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         }
-        .send-btn span { line-height: 1; }
+        .send-btn span { line-height: 1; font-family: inherit; }
 
-        /* 圆形分享按钮 - 增强动效支持 */
         .share-circle-btn {
             width: 38px;
             height: 38px;
@@ -212,14 +210,14 @@
             font-weight: normal;
             line-height: 1;
             overflow: visible;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
         }
-        /* 内部文本容器用于动画 */
         .share-circle-btn .share-text {
             display: inline-block;
             transition: opacity 0.3s ease;
             white-space: nowrap;
+            font-family: inherit;
         }
-        /* 保证动画期间按钮仍保持圆形视觉效果，文字临时撑开不影响布局太多 */
         .share-circle-btn {
             min-width: 38px;
         }
@@ -310,13 +308,11 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* 弹幕动画 */
         @keyframes slideInFromRight {
             0% { transform: translateX(20px); opacity: 0; }
             100% { transform: translateX(0); opacity: 1; }
         }
 
-        /* 遮罩层 - 房间号+用户名 */
         .room-overlay {
             position: fixed;
             top: 0;
@@ -371,7 +367,7 @@
             background: var(--primary-color);
             color: #0a0e17;
             border-radius: 60px;
-            padding: 14px 40px;
+            padding: 14px;
             font-weight: 600;
             border: none;
             margin-top: 10px;
@@ -394,7 +390,71 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* 移动端适配 (保持比例: 左侧1.8) */
+        .server-selector {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 48px;
+            display: flex;
+            position: relative;
+            margin: 16px auto 12px auto;
+            padding: 4px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 180px;
+            align-items: center;
+        }
+        .server-option {
+            flex: 0.6;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 2;
+            cursor: pointer;
+            transition: color 0.2s;
+            color: var(--text-sub);
+            max-height: 60px;
+        }
+        .server-option.active {
+            color: #0a0e17;
+            font-weight: 600;
+        }
+        .server-slider {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            width: calc(50% - 4px);
+            background: var(--primary-color);
+            border-radius: 48px;
+            transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 1;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        .server-slider.main {
+            transform: translateX(0%);
+        }
+        .server-slider.secondary {
+            transform: translateX(100%);
+        }
+
+        .room-actions {
+            display: flex;
+            width: 100%;
+            gap: 8px !important;  ;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .room-actions .server-selector {
+            flex: 1;
+            margin: 0 auto;
+            max-width: 60%;
+        }
+        .room-actions .room-button {
+            flex-shrink: 0;
+            margin: 0;
+            padding: 14px 24px;
+            margin-left: 8px;
+        }
+
         @media (max-width: 768px) {
             body::before {
                 background-image: 
@@ -497,7 +557,6 @@
             }
             .danmaku-item { font-size: 0.7rem; margin-bottom: 8px; }
            
-
             .input-area {
                 padding: 4px 6px 4px 14px;
                 gap: 6px;
@@ -559,6 +618,17 @@
             .room-dialog {
                 padding: 25px 15px;
             }
+            .room-actions {
+                gap: 12px;
+            }
+            .room-actions .room-button {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            .room-actions .server-selector {
+                margin: 0 auto;
+                max-width: 80%;
+            }
         }
 
         @media (prefers-color-scheme: light) {
@@ -613,30 +683,29 @@
             .error-msg {
                 color: #e74c3c;
             }
-
-               
             .danmaku-list {
                 background: #f0f2f5 !important;   
-                backdrop-filter: none;           
+                backdrop-filter: none;            
             }
-
-     
             .input-area {
                 background: #eef0f4 !important;   
                 border-color: rgba(0, 0, 0, 0.08);
             }
-
             .room-button {
                 color: #ffffff !important;
-
                 background: var(--primary-color, #3498db);
                 font-weight: 500;
             }
-
             .danmaku-text {
                 color: var(--text-sub);
             }
-
+            .server-selector {
+                background: rgba(0,0,0,0.05);
+                border-color: rgba(0,0,0,0.1);
+            }
+            .server-option.active {
+                color: white;
+            }
         }
     </style>
 </head>
@@ -658,17 +727,15 @@
             <div class="land-sub">- 𝐋𝐢𝐯𝐞 -</div>
         </div>
 
-      
         <div class="danmaku-container">
             <div class="danmaku-list" id="danmakuList"></div>
             <div class="input-area">
                 <input type="text" id="danmakuInput" placeholder="发送弹幕..." maxlength="20" disabled>
                 <button class="send-btn" id="sendDanmakuBtn" disabled><span>⬆</span></button>
-                <button class="share-circle-btn" id="circleShareBtn"><span class="share-text">↗</span></button>
+                <button class="share-circle-btn" id="circleShareBtn"><span class="share-text">⇗</span></button>
             </div>
         </div>
 
-  
         <div class="bottom-info-area">
             <div id="sessionInfoLine" class="session-info-line">—</div>
             <div class="powered-footer">Powered by <a href="https://github.com/ossrs/srs" target="_blank">SRS</a></div>
@@ -687,14 +754,20 @@
         <img src="https://cdn.rrrosmontis.icu/tsukuyomi/main-logo.png" alt="TSUKUYOMI Logo">
         <input type="number" id="roomInput" class="room-input" min="1" max="100" autofocus placeholder="房间号 | 1-100">
         <input type="text" id="usernameInput" class="room-input" placeholder="用户名 | 字母，数字，下划线" maxlength="20">
-        <button id="confirmRoomBtn" class="room-button">确认</button>
+        <div class="room-actions">
+            <div class="server-selector" id="serverSelector">
+                <div class="server-option" data-value="main">主站</div>
+                <div class="server-option" data-value="secondary">副站</div>
+                <div class="server-slider main" id="serverSlider"></div>
+            </div>
+            <button id="confirmRoomBtn" class="room-button">✓</button>
+        </div>
         <div id="roomError" class="error-msg"></div>
     </div>
 </div>
 
 <script>
 (function() {
-    // ----- 播放器相关变量 (保留原有逻辑) -----
     var flvPlayer = null;
     var hlsPlayer = null;
     var dashPlayer = null;
@@ -704,13 +777,23 @@
     let reconnectTimer = null;
     let isCooldown = false;
     let currentProtocol = 'FLV';
+    let currentServerType = 'main';
 
-    // 分享动画参数 (来自srsPlayerNight风格)
     const animationFadeDuration = 400;
     const animationStayDuration = 600;
 
     function isAppleDevice() {
         return /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+    }
+
+    function getStreamUrl(room, isMain) {
+        const base = isMain ? 'https://api.rrrosmontis.icu/live/room_' : 'https://api2.rrrosmontis.icu:49068/live/room_';
+        const ext = isAppleDevice() ? '.m3u8' : '.flv';
+        return base + room + ext;
+    }
+
+    function getDanmakuWsUrl(isMain) {
+        return isMain ? 'wss://api.rrrosmontis.icu/v1/live/danmaku' : 'wss://api2.rrrosmontis.icu:49068/danmaku';
     }
 
     function stopPlayers() {
@@ -746,7 +829,6 @@
         updateSessionDisplay();
     }
 
-    // 更新 session id 小字显示
     function updateSessionDisplay() {
         const sessionDiv = document.getElementById('sessionInfoLine');
         if (sessionDiv && currentRoomId) {
@@ -754,15 +836,6 @@
         } else if (sessionDiv) {
             sessionDiv.innerText = '—';
         }
-    }
-
-    const DANMAKU_WS_URL = 'wss://api2.rrrosmontis.icu:49068/danmaku';
-
-    function getAvatarColor(user) {
-        const colors = ['#5dade2', '#f1c40f', '#9b59b6', '#e67e22', '#2ecc71', '#e84342'];
-        let hash = 0;
-        for (let i = 0; i < user.length; i++) hash = user.charCodeAt(i) + ((hash << 5) - hash);
-        return colors[Math.abs(hash) % colors.length];
     }
 
     const danmakuListEl = document.getElementById('danmakuList');
@@ -821,14 +894,14 @@
         }, 5000);
     }
 
-    function connectDanmaku(room, username) {
+    function connectDanmaku(room, username, wsUrl) {
         if (wsDanmaku) {
             wsDanmaku.onclose = null;
             wsDanmaku.close();
             wsDanmaku = null;
         }
         if (reconnectTimer) clearTimeout(reconnectTimer);
-        wsDanmaku = new WebSocket(DANMAKU_WS_URL);
+        wsDanmaku = new WebSocket(wsUrl);
         wsDanmaku.onopen = () => {
             console.log('[DANMAKU] 已连接');
             wsDanmaku.send(JSON.stringify({ type: 'join', room: room, user: username }));
@@ -855,7 +928,10 @@
             console.log('[DANMAKU] 断开，重连中');
             if (reconnectTimer) clearTimeout(reconnectTimer);
             reconnectTimer = setTimeout(() => {
-                if (currentRoomId && currentUsername) connectDanmaku(currentRoomId, currentUsername);
+                if (currentRoomId && currentUsername) {
+                    const newWsUrl = getDanmakuWsUrl(currentServerType === 'main');
+                    connectDanmaku(currentRoomId, currentUsername, newWsUrl);
+                }
             }, 3000);
             updateInputState();
         };
@@ -869,7 +945,46 @@
         if (reconnectTimer) clearTimeout(reconnectTimer);
     }
 
-    // ----- 房间号 + 用户名验证逻辑 -----
+    function setServerSelection(type) {
+        const options = document.querySelectorAll('.server-option');
+        const slider = document.getElementById('serverSlider');
+        if (!slider) return;
+        if (type === 'main') {
+            slider.classList.remove('secondary');
+            slider.classList.add('main');
+            options.forEach(opt => {
+                if (opt.dataset.value === 'main') opt.classList.add('active');
+                else opt.classList.remove('active');
+            });
+            currentServerType = 'main';
+        } else {
+            slider.classList.remove('main');
+            slider.classList.add('secondary');
+            options.forEach(opt => {
+                if (opt.dataset.value === 'secondary') opt.classList.add('active');
+                else opt.classList.remove('active');
+            });
+            currentServerType = 'secondary';
+        }
+    }
+
+    function enterRoom(roomNum, username, isMainServer) {
+        currentRoomId = roomNum;
+        currentUsername = username;
+        currentServerType = isMainServer ? 'main' : 'secondary';
+        const overlay = document.getElementById('roomOverlay');
+        overlay.style.display = 'none';
+        const streamUrl = getStreamUrl(roomNum, isMainServer);
+        startPlay(streamUrl);
+        closeDanmaku();
+        const wsUrl = getDanmakuWsUrl(isMainServer);
+        connectDanmaku(currentRoomId, currentUsername, wsUrl);
+        if (danmakuListEl) {
+            danmakuListEl.innerHTML = '<div class="danmaku-empty">连接弹幕中...</div>';
+        }
+        updateSessionDisplay();
+    }
+
     const overlay = document.getElementById('roomOverlay');
     const roomInput = document.getElementById('roomInput');
     const usernameInputOverlay = document.getElementById('usernameInput');
@@ -905,19 +1020,8 @@
             errorDiv.innerText = '用户名需为1-20位字母、数字、下划线或连字符';
             return;
         }
-        currentRoomId = roomNum;
-        currentUsername = rawName;
-        overlay.style.display = 'none';
-        const streamUrl = isAppleDevice() ?
-            "https://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".m3u8" :
-            "https://api2.rrrosmontis.icu:49068/live/room_" + roomNum + ".flv";
-        startPlay(streamUrl);
-        closeDanmaku();
-        connectDanmaku(currentRoomId, currentUsername);
-        if (danmakuListEl) {
-            danmakuListEl.innerHTML = '<div class="danmaku-empty">连接弹幕中...</div>';
-        }
-        updateSessionDisplay();
+        const isMain = (currentServerType === 'main');
+        enterRoom(roomNum, rawName, isMain);
     }
 
     confirmBtn.addEventListener('click', (e) => { e.preventDefault(); handleConfirm(); });
@@ -927,9 +1031,7 @@
     sendBtn.addEventListener('click', (e) => { e.preventDefault(); sendDanmaku(); });
     if (danmakuInput) danmakuInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendDanmaku(); } });
 
-    // ---------- 分享按钮动效（移植自srsPlayerNight 完全风格）----------
     const circleShare = document.getElementById('circleShareBtn');
-    
     function triggerShareAnimation(textSpan, tempText) {
         if (!textSpan) return;
         const originalText = textSpan.innerText;
@@ -982,7 +1084,8 @@
                 setTimeout(() => { if(errorDiv) errorDiv.innerText = ''; }, 1500);
                 return;
             }
-            const shareUrl = window.location.origin + window.location.pathname + '?room=' + currentRoomId;
+            const siteParam = (currentServerType === 'main') ? '1' : '2';
+            const shareUrl = window.location.origin + window.location.pathname + '?room=' + currentRoomId + '&site=' + siteParam;
             const tempInput = document.createElement('input');
             tempInput.value = shareUrl;
             document.body.appendChild(tempInput);
@@ -991,24 +1094,63 @@
             document.body.removeChild(tempInput);
             const textSpan = circleShare.querySelector('.share-text');
             if (textSpan) {
-                triggerShareAnimation(textSpan, '✅');
+                triggerShareAnimation(textSpan, '✓');
             }
         });
     }
 
-    // 处理 url 参数自动进入房间
     const urlParams = new URLSearchParams(window.location.search);
     const urlRoom = urlParams.get('room');
+    const urlUsername = urlParams.get('username');
+    const urlSite = urlParams.get('site');
+    let initialSiteIsMain = true;
+    if (urlSite === '2') initialSiteIsMain = false;
+    else if (urlSite === '1') initialSiteIsMain = true;
+    setServerSelection(initialSiteIsMain ? 'main' : 'secondary');
+
+    let autoEnter = false;
+    let autoRoomValid = false;
+    let autoUsernameValid = false;
     if (urlRoom) {
         const parsedRoom = parseInt(urlRoom, 10);
         if (parsedRoom === 8000) {
             window.location.href = 'https://live.rrrosmontis.icu/players/8000.html';
         } else if (parsedRoom >= 1 && parsedRoom <= 100) {
             roomInput.value = parsedRoom;
+            autoRoomValid = true;
         }
     }
+    if (urlUsername) {
+        usernameInputOverlay.value = urlUsername;
+        if (isValidUsername(urlUsername)) {
+            autoUsernameValid = true;
+        } else {
+            errorDiv.innerText = '用户名需为1-20位字母、数字、下划线或连字符';
+        }
+    }
+    if (autoRoomValid && urlUsername && autoUsernameValid) {
+        autoEnter = true;
+        const finalRoom = parseInt(urlRoom, 10);
+        const finalUser = urlUsername;
+        const useMain = (currentServerType === 'main');
+        enterRoom(finalRoom, finalUser, useMain);
+    }
+    if (!autoEnter) {
+        showEmptyDanmaku();
+    } else {
+        overlay.style.display = 'none';
+    }
 
-    showEmptyDanmaku();
+    const serverSelector = document.getElementById('serverSelector');
+    if (serverSelector) {
+        const options = serverSelector.querySelectorAll('.server-option');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = opt.dataset.value;
+                setServerSelection(val);
+            });
+        });
+    }
 })();
 </script>
 </body>
