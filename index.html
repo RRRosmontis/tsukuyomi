@@ -714,8 +714,7 @@
     <div class="land-left-box">
         <div class="land-top-text">
             <br>
-            <div class="land-title-main">𝓡𝓸𝔂𝓲𝓻𝓲𝓷</div>
-            <div class="land-title-main">𝓡𝓸𝓼𝓶𝓸𝓷𝓽𝓲𝓼</div>
+            <div class="land-title-main">𝓡𝓸𝔂𝓲𝓻𝓲𝓷<br>𝓡𝓸𝓼𝓶𝓸𝓷𝓽𝓲𝓼</div>
             <br>
             <hr style="width: 80%; margin: 0 auto;">
             <br class="pc-only">
@@ -787,13 +786,13 @@
     }
 
     function getStreamUrl(room, isMain) {
-        const base = isMain ? 'https://api-zc.rrrosmontis.icu/live/room_' : 'https://api-ipxr.rrrosmontis.icu:52610/live/room_';
+        const base = isMain ? 'https://api.rrrosmontis.icu/live/room_' : 'https://api.bu4.ren/live/room_';
         const ext = isAppleDevice() ? '.m3u8' : '.flv';
         return base + room + ext;
     }
 
     function getDanmakuWsUrl(isMain) {
-        return isMain ? 'wss://api.rrrosmontis.icu/v1/live/danmaku' : 'wss://api-ipxr.rrrosmontis.icu:52610/v1/live/danmaku';
+        return isMain ? 'wss://api.rrrosmontis.icu/v1/live/danmaku' : 'wss://api.bu4.ren/danmaku';
     }
 
     function stopPlayers() {
