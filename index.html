@@ -281,6 +281,8 @@
             font-weight: 600;
             line-height: 1.2;
             text-shadow: 0 0 15px rgba(255,255,255,0.2);
+            max-width: 100%;
+            overflow-wrap: break-word;
         }
 
         .land-title {
@@ -448,6 +450,70 @@
             margin: 0;
             padding: 14px 24px;
             margin-left: 8px;
+        }
+
+        /* Tablet landscape: iPad / iPad Air / iPad Pro 11 / iPad Pro 12.9 etc. */
+        @media (min-width: 769px) and (max-width: 1366px) and (orientation: landscape) {
+            .main-content {
+                padding: 16px;
+                gap: 16px;
+            }
+            .land-left-box {
+                flex: 2.2;
+                padding: 20px 14px;
+                border-radius: 24px;
+            }
+            .additional-box {
+                flex: 7.8;
+                border-radius: 24px;
+                padding: 16px;
+            }
+            .land-title-main {
+                font-size: 1.45rem;
+            }
+            .land-title {
+                font-size: 0.8rem;
+            }
+            .land-sub {
+                font-size: 0.85rem;
+                letter-spacing: 2px;
+            }
+            .land-top-text {
+                margin-bottom: 12px;
+            }
+            .danmaku-container {
+                margin-top: 8px;
+                margin-bottom: 8px;
+            }
+            .danmaku-list {
+                padding: 10px;
+                border-radius: 16px;
+                margin-bottom: 10px;
+            }
+            .danmaku-item {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+            }
+            .input-area {
+                padding: 4px 6px 4px 14px;
+                gap: 6px;
+            }
+            .input-area input {
+                font-size: 0.8rem;
+                padding: 6px 0;
+            }
+            .send-btn, .share-circle-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+                min-width: 32px;
+            }
+            .session-info-line {
+                font-size: 0.7rem;
+            }
+            .powered-footer {
+                font-size: 0.65rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -786,7 +852,7 @@
     }
 
     function getStreamUrl(room, isMain) {
-        const base = isMain ? 'https://api.rrrosmontis.icu/live/room_' : 'https://api.bu4.ren/live/room_';
+        const base = isMain ? 'https://api-zc.rrrosmontis.icu/live/room_' : 'https://api.bu4.ren/live/room_';
         const ext = isAppleDevice() ? '.m3u8' : '.flv';
         return base + room + ext;
     }
