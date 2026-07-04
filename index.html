@@ -852,7 +852,7 @@
     }
 
     function getStreamUrl(room, isMain) {
-        const base = isMain ? 'https://api.zcytj.top/live/room_' : 'https://api.bu4.ren/live/room_';
+        const base = isMain ? 'https://live-api.zcytj.top/live/room_' : 'https://api.bu4.ren/live/room_';
         const ext = isAppleDevice() ? '.m3u8' : '.flv';
         return base + room + ext;
     }
